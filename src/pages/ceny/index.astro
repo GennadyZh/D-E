@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import packages from '../../data/packages.json';
+import { pages } from '../../lib/content';
+
+const { frontmatter, Content } = pages.ceny;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+	<PageHero title={frontmatter.title} lead={frontmatter.lead} />
+
+	<div class="prose reveal">
+		<Content />
+	</div>
+
+	<ul class="packages">
+		{
+			packages.map((item, index) => (
+				<li class:list={[{ featured: item.featured }, 'reveal']} style={`--i: ${index}`}>
+					<div class="pkg-head">
+						<h2>{item.name}</h2>
+						<p class="price">{item.price}</p>
+						<p class="duration">{item.duration}</p>
+					</div>
+					<ul>
+						{item.includes.map((line) => (
+							<li>{line}</li>
+						))}
+					</ul>
+				</li>
+			))
+		}
+	</ul>
+
+	<div class="cta-row reveal" style="margin-top: 2rem;">
+		<a class="btn btn-primary" href="/kontakty/">Уточнить стоимость</a>
+	</div>
+</BaseLayout>
+
+<style>
+	.packages {
+		list-style: none;
+		margin: var(--space-lg) 0 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-md);
+	}
+
+	.packages > li {
+		padding: var(--space-md) 0;
+		border-top: 1px solid var(--line);
+		display: grid;
+		gap: var(--space-md);
+		transition-delay: calc(var(--i, 0) * 60ms);
+	}
+
+	.packages > li:last-child {
+		border-bottom: 1px solid var(--line);
+	}
+
+	.featured .pkg-head h2 {
+		color: var(--wine);
+	}
+
+	.pkg-head h2 {
+		margin: 0 0 0.35rem;
+		font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+		color: var(--wine-deep);
+	}
+
+	.price {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.35rem;
+		font-weight: 600;
+	}
+
+	.duration {
+		margin: 0.25rem 0 0;
+		color: var(--muted);
+		font-size: 0.92rem;
+	}
+
+	.packages ul {
+		margin: 0;
+		padding-left: 1.1rem;
+		color: var(--ink-soft);
+	}
+
+	.packages ul li + li {
+		margin-top: 0.35rem;
+	}
+
+	@media (min-width: 860px) {
+		.packages > li {
+			grid-template-columns: minmax(12rem, 0.9fr) 1.3fr;
+			align-items: start;
+		}
+	}
+</style>

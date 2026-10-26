@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { pages } from '../../lib/content';
+import { site } from '../../data/site';
+
+const { frontmatter, Content } = pages.kontakty;
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent('Заявка на праздник — D-E')}`;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+	<PageHero title={frontmatter.title} lead={frontmatter.lead} />
+
+	<div class="contact-grid">
+		<div class="prose reveal">
+			<Content />
+			<ul class="contacts">
+				<li>
+					<span>Почта</span>
+					<a href={`mailto:${site.email}`}>{site.email}</a>
+				</li>
+				<li>
+					<span>Телефон</span>
+					<a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a>
+				</li>
+				<li>
+					<span>География</span>
+					<strong>{site.city}</strong>
+				</li>
+			</ul>
+		</div>
+
+		<form class="contact-form reveal" action={mailto} method="get">
+			<p class="form-note">Статическая форма-заглушка: «Отправить» откроет почтовый клиент.</p>
+			<label>
+				Ваше имя
+				<input type="text" name="name" autocomplete="name" placeholder="Анна" required />
+			</label>
+			<label>
+				Дата праздника
+				<input type="text" name="date" placeholder="15 августа 2026" />
+			</label>
+			<label>
+				Сообщение
+				<textarea
+					name="body"
+					rows="5"
+					placeholder="Формат, площадка, число гостей…"
+					required></textarea>
+			</label>
+			<button class="btn btn-primary" type="submit">Написать на почту</button>
+			<p class="form-alt">
+				Или сразу:
+				<a href={mailto}>открыть письмо</a>
+			</p>
+		</form>
+	</div>
+</BaseLayout>
+
+<style>
+	.contact-grid {
+		display: grid;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	.contacts {
+		list-style: none;
+		margin: var(--space-md) 0 0;
+		padding: 0;
+		display: grid;
+		gap: 0.85rem;
+	}
+
+	.contacts li {
+		display: grid;
+		gap: 0.15rem;
+	}
+
+	.contacts span {
+		font-size: 0.78rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--gold);
+		font-weight: 700;
+	}
+
+	.contact-form {
+		display: grid;
+		gap: 0.9rem;
+		max-width: 28rem;
+	}
+
+	.form-note,
+	.form-alt {
+		margin: 0;
+		color: var(--muted);
+		font-size: 0.92rem;
+	}
+
+	label {
+		display: grid;
+		gap: 0.35rem;
+		font-weight: 600;
+		font-size: 0.92rem;
+	}
+
+	input,
+	textarea {
+		font: inherit;
+		padding: 0.75rem 0.85rem;
+		border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+		border-radius: var(--radius);
+		background: color-mix(in srgb, white 75%, var(--paper));
+		color: var(--ink);
+	}
+
+	input:focus,
+	textarea:focus {
+		outline: 2px solid color-mix(in srgb, var(--wine) 35%, transparent);
+		outline-offset: 1px;
+		border-color: var(--wine);
+	}
+
+	@media (min-width: 860px) {
+		.contact-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+</style>
+
+<script>
+	const form = document.querySelector('.contact-form');
+	form?.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const data = new FormData(form as HTMLFormElement);
+		const name = String(data.get('name') || '').trim();
+		const date = String(data.get('date') || '').trim();
+		const body = String(data.get('body') || '').trim();
+		const lines = [
+			name && `Имя: ${name}`,
+			date && `Дата: ${date}`,
+			'',
+			body,
+		].filter(Boolean);
+		const mailto = (form as HTMLFormElement).action;
+		const url = new URL(mailto);
+		url.searchParams.set(
+			'body',
+			lines.join('\n') || 'Здравствуйте! Хочу обсудить праздник.',
+		);
+		window.location.href = url.toString();
+	});
+</script>

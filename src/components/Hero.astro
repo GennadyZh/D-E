@@ -1,0 +1,197 @@
+---
+interface Props {
+	brand: string;
+	tagline: string;
+	title: string;
+	lead: string;
+	primaryHref?: string;
+	primaryLabel?: string;
+	secondaryHref?: string;
+	secondaryLabel?: string;
+}
+
+const {
+	brand,
+	tagline,
+	title,
+	lead,
+	primaryHref = '/kontakty/',
+	primaryLabel = 'Обсудить дату',
+	secondaryHref = '/uslugi/',
+	secondaryLabel = 'Смотреть услуги',
+} = Astro.props;
+---
+
+<section class="hero" aria-label="Главный экран">
+	<div class="hero-plane" aria-hidden="true"></div>
+	<div class="hero-inner">
+		<div class="hero-copy">
+			<p class="hero-brand">
+				<span class="hero-brand-name">{brand}</span>
+				<span class="hero-brand-tag">{tagline}</span>
+			</p>
+			<h1>{title}</h1>
+			<p class="hero-lead">{lead}</p>
+			<div class="cta-row">
+				<a class="btn btn-primary" href={primaryHref}>{primaryLabel}</a>
+				<a class="btn btn-ghost" href={secondaryHref}>{secondaryLabel}</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		min-height: min(100vh, 56rem);
+		display: grid;
+		align-items: end;
+		overflow: hidden;
+		color: #fff8f2;
+	}
+
+	.hero-plane {
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(
+				115deg,
+				color-mix(in srgb, #3a1520 78%, transparent) 0%,
+				color-mix(in srgb, #5c1a2a 55%, transparent) 42%,
+				color-mix(in srgb, #8a5a28 35%, transparent) 100%
+			),
+			radial-gradient(ellipse 80% 60% at 70% 40%, #c9a06a 0%, transparent 55%),
+			radial-gradient(ellipse 70% 80% at 15% 80%, #7a2438 0%, transparent 50%),
+			linear-gradient(160deg, #2a1418 0%, #6b3a28 48%, #b8893a 100%);
+		transform: scale(1.02);
+		animation: heroGlow 14s ease-in-out infinite alternate;
+	}
+
+	.hero-plane::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(circle at 78% 28%, rgba(255, 236, 200, 0.22), transparent 28%),
+			linear-gradient(to top, rgba(18, 10, 12, 0.55), transparent 42%);
+		animation: heroSheen 10s var(--ease-out) infinite alternate;
+	}
+
+	.hero-inner {
+		position: relative;
+		z-index: 1;
+		width: min(100% - 2rem, var(--max));
+		margin: 0 auto;
+		padding: 7rem 0 4.5rem;
+	}
+
+	.hero-copy {
+		max-width: 36rem;
+		animation: riseIn 0.9s var(--ease-out) both;
+	}
+
+	.hero-brand {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		margin: 0 0 1.25rem;
+		animation: riseIn 0.9s var(--ease-out) 0.08s both;
+	}
+
+	.hero-brand-name {
+		font-family: var(--font-display);
+		font-size: clamp(2.8rem, 8vw, 5.2rem);
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		line-height: 0.95;
+		color: #fff8f2;
+		text-shadow: 0 8px 30px rgba(20, 8, 10, 0.25);
+	}
+
+	.hero-brand-tag {
+		font-family: var(--font-body);
+		font-size: clamp(1rem, 2vw, 1.2rem);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #f5e6c8 88%, white);
+	}
+
+	h1 {
+		margin: 0 0 1rem;
+		font-size: clamp(1.55rem, 3.2vw, 2.35rem);
+		font-weight: 600;
+		max-width: 18ch;
+		color: #fff8f2;
+	}
+
+	.hero-lead {
+		margin: 0 0 1.75rem;
+		font-size: 1.08rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, #fff8f2 88%, #d4b478);
+		max-width: 34ch;
+	}
+
+	.hero :global(.btn-primary) {
+		background: #fff8f2;
+		color: var(--wine-deep);
+	}
+
+	.hero :global(.btn-primary:hover) {
+		background: #ffe9d4;
+		color: var(--wine-deep);
+	}
+
+	.hero :global(.btn-ghost) {
+		color: #fff8f2;
+		border-color: color-mix(in srgb, #fff8f2 45%, transparent);
+	}
+
+	.hero :global(.btn-ghost:hover) {
+		border-color: #fff8f2;
+		color: #fff8f2;
+		background: color-mix(in srgb, #fff8f2 10%, transparent);
+	}
+
+	@keyframes riseIn {
+		from {
+			opacity: 0;
+			transform: translateY(1.25rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes heroGlow {
+		from {
+			filter: saturate(1) brightness(1);
+		}
+		to {
+			filter: saturate(1.08) brightness(1.05);
+		}
+	}
+
+	@keyframes heroSheen {
+		from {
+			opacity: 0.85;
+			transform: translate3d(0, 0, 0);
+		}
+		to {
+			opacity: 1;
+			transform: translate3d(-1.5%, 1%, 0);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.hero-inner {
+			padding: 6rem 0 3.25rem;
+		}
+
+		.hero-lead {
+			max-width: none;
+		}
+	}
+</style>

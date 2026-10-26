@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import gallery from '../../data/gallery.json';
+import { pages } from '../../lib/content';
+
+const { frontmatter, Content } = pages.galereya;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+	<PageHero title={frontmatter.title} lead={frontmatter.lead} />
+
+	<div class="prose reveal">
+		<Content />
+	</div>
+
+	<ul class="gallery">
+		{
+			gallery.map((item, index) => (
+				<li class={`tone-${item.tone} reveal`} style={`--i: ${index}`}>
+					<figure>
+						<div class="shot" />
+						<figcaption>
+							<strong>{item.title}</strong>
+							<span>{item.caption}</span>
+						</figcaption>
+					</figure>
+				</li>
+			))
+		}
+	</ul>
+</BaseLayout>
+
+<style>
+	.gallery {
+		list-style: none;
+		margin: var(--space-lg) 0 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-md);
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	}
+
+	figure {
+		margin: 0;
+	}
+
+	.shot {
+		aspect-ratio: 4 / 3;
+		border-radius: var(--radius);
+		margin-bottom: 0.75rem;
+		background: linear-gradient(145deg, var(--paper-deep), var(--rose));
+	}
+
+	.tone-wine .shot {
+		background: linear-gradient(145deg, #8a3a4a, #5c1a2a 60%, #b8893a);
+	}
+
+	.tone-gold .shot {
+		background: linear-gradient(145deg, #e8d3a8, #b8893a 55%, #6e4a22);
+	}
+
+	.tone-leaf .shot {
+		background: linear-gradient(145deg, #a8c4b4, #3d5a4c 60%, #1f332b);
+	}
+
+	.tone-rose .shot {
+		background: linear-gradient(145deg, #f2ddd4, #c98b7a 55%, #7a2438);
+	}
+
+	figcaption {
+		display: grid;
+		gap: 0.2rem;
+	}
+
+	figcaption strong {
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		color: var(--wine-deep);
+	}
+
+	figcaption span {
+		color: var(--muted);
+		font-size: 0.92rem;
+	}
+
+	.reveal {
+		transition-delay: calc(var(--i, 0) * 60ms);
+	}
+</style>

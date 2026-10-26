@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import reviews from '../../data/reviews.json';
+import { pages } from '../../lib/content';
+
+const { frontmatter, Content } = pages.otzyvy;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+	<PageHero title={frontmatter.title} lead={frontmatter.lead} />
+
+	<div class="prose reveal">
+		<Content />
+	</div>
+
+	<ul class="reviews">
+		{
+			reviews.map((item, index) => (
+				<li class="reveal" style={`--i: ${index}`}>
+					<blockquote>{item.text}</blockquote>
+					<p class="meta">
+						<strong>{item.name}</strong>
+						<span>{item.event}</span>
+					</p>
+				</li>
+			))
+		}
+	</ul>
+</BaseLayout>
+
+<style>
+	.reviews {
+		list-style: none;
+		margin: var(--space-lg) 0 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-lg);
+	}
+
+	.reviews li {
+		padding-top: var(--space-md);
+		border-top: 1px solid var(--line);
+		max-width: 42rem;
+		transition-delay: calc(var(--i, 0) * 50ms);
+	}
+
+	blockquote {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+		line-height: 1.4;
+		font-weight: 500;
+	}
+
+	.meta {
+		margin: 0.85rem 0 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		color: var(--muted);
+		font-size: 0.92rem;
+	}
+</style>

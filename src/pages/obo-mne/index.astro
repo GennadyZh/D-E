@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { pages } from '../../lib/content';
+import { site } from '../../data/site';
+
+const { frontmatter, Content } = pages.oboMne;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+	<div class="about-grid">
+		<PageHero title={frontmatter.title} lead={frontmatter.lead} />
+		<aside class="portrait reveal" aria-hidden="true">
+			<div class="portrait-frame">
+				<span class="portrait-brand">{site.brand}</span>
+				<span class="portrait-note">Место для фото</span>
+			</div>
+		</aside>
+	</div>
+
+	<article class="prose reveal">
+		<Content />
+	</article>
+
+	<div class="cta-row reveal" style="margin-top: 2rem;">
+		<a class="btn btn-primary" href="/kontakty/">Связаться</a>
+		<a class="btn btn-ghost" href="/galereya/">Галерея</a>
+	</div>
+</BaseLayout>
+
+<style>
+	.about-grid {
+		display: grid;
+		gap: var(--space-lg);
+		align-items: end;
+	}
+
+	.portrait-frame {
+		aspect-ratio: 4 / 5;
+		max-width: 22rem;
+		border-radius: var(--radius);
+		background:
+			radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--gold-soft) 55%, white), transparent 45%),
+			linear-gradient(160deg, var(--rose), var(--paper-deep) 55%, color-mix(in srgb, var(--wine) 25%, var(--paper)));
+		display: grid;
+		place-content: end start;
+		padding: 1.25rem;
+		box-shadow: var(--shadow-soft);
+	}
+
+	.portrait-brand {
+		font-family: var(--font-display);
+		font-size: 2rem;
+		color: var(--wine-deep);
+	}
+
+	.portrait-note {
+		color: var(--muted);
+		font-size: 0.9rem;
+	}
+
+	@media (min-width: 800px) {
+		.about-grid {
+			grid-template-columns: 1.2fr 0.8fr;
+		}
+	}
+</style>

@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import services from '../../data/services.json';
+import { pages } from '../../lib/content';
+
+const { frontmatter, Content } = pages.uslugi;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+	<PageHero title={frontmatter.title} lead={frontmatter.lead} />
+
+	<div class="prose reveal">
+		<Content />
+	</div>
+
+	<ul class="services reveal">
+		{
+			services.map((item, index) => (
+				<li style={`--i: ${index}`}>
+					<span class="index">{String(index + 1).padStart(2, '0')}</span>
+					<div>
+						<h2>{item.title}</h2>
+						<p>{item.summary}</p>
+					</div>
+				</li>
+			))
+		}
+	</ul>
+
+	<div class="cta-row reveal" style="margin-top: 2rem;">
+		<a class="btn btn-primary" href="/kontakty/">Запросить сценарий</a>
+		<a class="btn btn-ghost" href="/ceny/">Смотреть пакеты</a>
+	</div>
+</BaseLayout>
+
+<style>
+	.services {
+		list-style: none;
+		margin: var(--space-lg) 0 0;
+		padding: 0;
+		display: grid;
+		gap: 0;
+	}
+
+	.services li {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--space-md);
+		padding: var(--space-md) 0;
+		border-top: 1px solid var(--line);
+		transition: transform 0.35s var(--ease-out);
+	}
+
+	.services li:last-child {
+		border-bottom: 1px solid var(--line);
+	}
+
+	.index {
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		color: var(--gold);
+		padding-top: 0.2rem;
+	}
+
+	h2 {
+		margin: 0 0 0.4rem;
+		font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+		color: var(--wine-deep);
+	}
+
+	p {
+		margin: 0;
+		color: var(--ink-soft);
+		max-width: 40rem;
+	}
+</style>
