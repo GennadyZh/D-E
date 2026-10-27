@@ -5,6 +5,7 @@ import { site } from '../data/site';
 import services from '../data/services.json';
 import reviews from '../data/reviews.json';
 import { pages } from '../lib/content';
+import { withBase } from '../lib/paths';
 
 const { frontmatter, Content } = pages.home;
 const previewServices = services.slice(0, 3);
@@ -27,8 +28,8 @@ const previewReviews = reviews.slice(0, 2);
 					<Content />
 				</div>
 				<div class="cta-row">
-					<a class="btn btn-primary" href="/kontakty/">Написать</a>
-					<a class="btn btn-ghost" href="/ceny/">Пакеты и цены</a>
+					<a class="btn btn-primary" href={withBase('/kontakty/')}>Написать</a>
+					<a class="btn btn-ghost" href={withBase('/ceny/')}>Пакеты и цены</a>
 				</div>
 			</div>
 
@@ -45,7 +46,7 @@ const previewReviews = reviews.slice(0, 2);
 						))
 					}
 				</ul>
-				<a class="text-link" href="/uslugi/">Все услуги</a>
+				<a class="text-link" href={withBase('/uslugi/')}>Все услуги</a>
 			</div>
 
 			<div class="quote-strip reveal">
@@ -63,7 +64,7 @@ const previewReviews = reviews.slice(0, 2);
 						))
 					}
 				</div>
-				<a class="text-link" href="/otzyvy/">Читать отзывы</a>
+				<a class="text-link" href={withBase('/otzyvy/')}>Читать отзывы</a>
 			</div>
 		</div>
 	</section>

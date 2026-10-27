@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/paths';
+
 interface Props {
 	brand: string;
 	tagline: string;
@@ -33,8 +35,8 @@ const {
 			<h1>{title}</h1>
 			<p class="hero-lead">{lead}</p>
 			<div class="cta-row">
-				<a class="btn btn-primary" href={primaryHref}>{primaryLabel}</a>
-				<a class="btn btn-ghost" href={secondaryHref}>{secondaryLabel}</a>
+				<a class="btn btn-primary" href={withBase(primaryHref)}>{primaryLabel}</a>
+				<a class="btn btn-ghost" href={withBase(secondaryHref)}>{secondaryLabel}</a>
 			</div>
 		</div>
 	</div>

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import { pages } from '../../lib/content';
 import { site } from '../../data/site';
+import { withBase } from '../../lib/paths';
 
 const { frontmatter, Content } = pages.oboMne;
 ---
@@ -23,8 +24,8 @@ const { frontmatter, Content } = pages.oboMne;
 	</article>
 
 	<div class="cta-row reveal" style="margin-top: 2rem;">
-		<a class="btn btn-primary" href="/kontakty/">Связаться</a>
-		<a class="btn btn-ghost" href="/galereya/">Галерея</a>
+		<a class="btn btn-primary" href={withBase('/kontakty/')}>Связаться</a>
+		<a class="btn btn-ghost" href={withBase('/galereya/')}>Галерея</a>
 	</div>
 </BaseLayout>
 
