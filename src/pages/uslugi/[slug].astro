@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import services from '../../data/services.json';
+import { withBase } from '../../lib/paths';
+
+export function getStaticPaths() {
+	return services.map((service) => ({
+		params: { slug: service.slug },
+		props: { service },
+	}));
+}
+
+const { service } = Astro.props;
+const description = `${service.summary} Ведущий праздников D-E.`;
+---
+
+<BaseLayout title={service.title} description={description}>
+	<PageHero title={service.title} lead={service.summary} />
+
+	<div class="prose reveal">
+		<p>{service.description}</p>
+	</div>
+
+	<section class="includes reveal">
+		<h2>Что входит</h2>
+		<ul>
+			{service.includes.map((item) => <li>{item}</li>)}
+		</ul>
+	</section>
+
+	<div class="cta-row reveal" style="margin-top: 2rem;">
+		<a class="btn btn-primary" href={withBase('/kontakty/')}>Обсудить этот формат</a>
+		<a class="btn btn-ghost" href={withBase('/uslugi/')}>Все услуги</a>
+		<a class="btn btn-ghost" href={withBase('/ceny/')}>Пакеты и цены</a>
+	</div>
+</BaseLayout>
+
+<style>
+	.includes {
+		margin-top: var(--space-lg);
+		padding-top: var(--space-md);
+		border-top: 1px solid var(--line);
+		max-width: 42rem;
+	}
+
+	.includes h2 {
+		margin: 0 0 var(--space-sm);
+		font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+		color: var(--wine-deep);
+	}
+
+	.includes ul {
+		margin: 0;
+		padding-left: 1.15rem;
+		color: var(--ink-soft);
+	}
+
+	.includes li + li {
+		margin-top: 0.45rem;
+	}
+</style>
