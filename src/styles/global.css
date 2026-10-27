@@ -1,21 +1,28 @@
 :root {
-	--ink: #302923;
-	--ink-soft: #5a4e45;
-	--muted: #7a6e64;
-	--paper: #f6f2ec;
-	--paper-deep: #e5d6c6;
-	--rose: #e5d6c6;
-	--gold: #b76e50;
-	--gold-soft: #d4a08a;
-	--wine: #b76e50;
-	--wine-deep: #8f5238;
-	--leaf: #5c534c;
-	--white: #ffffff;
-	--line: color-mix(in srgb, var(--ink) 12%, transparent);
-	--shadow-soft: 0 18px 50px color-mix(in srgb, var(--wine) 8%, transparent);
+	/* GPT concept palette — exact tokens */
+	--bg: #f7f3ee;
+	--text: #252525;
+	--accent: #b7694e;
+	--surfaces: #e9ded2;
+	--cards: #ffffff;
 
-	--font-display: 'Unbounded', 'Segoe UI', sans-serif;
-	--font-body: 'Manrope', 'Segoe UI', sans-serif;
+	--ink: var(--text);
+	--ink-soft: color-mix(in srgb, var(--text) 72%, var(--bg));
+	--muted: color-mix(in srgb, var(--text) 55%, var(--bg));
+	--paper: var(--bg);
+	--paper-deep: var(--surfaces);
+	--rose: var(--surfaces);
+	--gold: var(--accent);
+	--gold-soft: color-mix(in srgb, var(--accent) 55%, var(--bg));
+	--wine: var(--accent);
+	--wine-deep: color-mix(in srgb, var(--accent) 78%, var(--text));
+	--leaf: color-mix(in srgb, var(--text) 55%, var(--surfaces));
+	--white: var(--cards);
+	--line: color-mix(in srgb, var(--text) 12%, transparent);
+	--shadow-soft: 0 18px 50px color-mix(in srgb, var(--text) 6%, transparent);
+
+	--font-display: 'Manrope', 'Segoe UI', sans-serif;
+	--font-body: 'Inter', 'Segoe UI', sans-serif;
 
 	--space-xs: 0.5rem;
 	--space-sm: 0.85rem;
@@ -25,7 +32,7 @@
 	--space-2xl: 7rem;
 
 	--max: 72rem;
-	--radius: 0.35rem;
+	--radius: 0.25rem;
 
 	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -43,15 +50,15 @@ html {
 body {
 	margin: 0;
 	min-height: 100vh;
-	color: var(--ink);
+	color: var(--text);
 	font-family: var(--font-body);
 	font-size: 1.05rem;
+	font-weight: 400;
 	line-height: 1.65;
 	background:
-		radial-gradient(1200px 700px at 88% -10%, color-mix(in srgb, var(--gold-soft) 42%, transparent), transparent 60%),
-		radial-gradient(900px 600px at -5% 20%, color-mix(in srgb, var(--rose) 55%, transparent), transparent 55%),
-		radial-gradient(800px 500px at 50% 110%, color-mix(in srgb, var(--leaf) 12%, transparent), transparent 50%),
-		linear-gradient(165deg, var(--white) 0%, var(--paper) 45%, var(--paper-deep) 100%);
+		radial-gradient(900px 520px at 92% -8%, color-mix(in srgb, var(--surfaces) 80%, transparent), transparent 58%),
+		radial-gradient(700px 480px at -8% 18%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 52%),
+		linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--surfaces) 35%, var(--bg)) 100%);
 	background-attachment: fixed;
 }
 
@@ -61,9 +68,9 @@ body::before {
 	inset: 0;
 	pointer-events: none;
 	z-index: 0;
-	opacity: 0.35;
+	opacity: 0.22;
 	background-image:
-		url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+		url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
 	mix-blend-mode: multiply;
 }
 
@@ -74,7 +81,7 @@ img {
 }
 
 a {
-	color: var(--wine);
+	color: var(--accent);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.2em;
 	transition: color 0.25s var(--ease-out);
@@ -89,7 +96,7 @@ h2,
 h3,
 .brand {
 	font-family: var(--font-display);
-	font-weight: 600;
+	font-weight: 700;
 	line-height: 1.15;
 	letter-spacing: -0.02em;
 }
@@ -127,7 +134,7 @@ p {
 	margin-top: 2rem;
 	margin-bottom: 0.75rem;
 	font-size: clamp(1.4rem, 2vw, 1.75rem);
-	color: var(--wine-deep);
+	color: var(--text);
 }
 
 .prose :where(ul) {
@@ -142,17 +149,17 @@ p {
 	display: inline-block;
 	font-family: var(--font-body);
 	font-size: 0.78rem;
-	font-weight: 700;
+	font-weight: 600;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
-	color: var(--gold);
+	color: var(--accent);
 	margin-bottom: var(--space-sm);
 }
 
 .section-title {
 	font-size: clamp(1.75rem, 3.5vw, 2.6rem);
 	margin: 0 0 var(--space-sm);
-	color: var(--ink);
+	color: var(--text);
 }
 
 .section-lead {
@@ -171,7 +178,7 @@ p {
 	border-radius: var(--radius);
 	border: 1px solid transparent;
 	font-family: var(--font-body);
-	font-weight: 700;
+	font-weight: 600;
 	font-size: 0.95rem;
 	text-decoration: none;
 	cursor: pointer;
@@ -187,30 +194,48 @@ p {
 }
 
 .btn-primary {
-	background: var(--wine);
-	color: var(--white);
+	background: var(--accent);
+	color: var(--cards);
 }
 
 .btn-primary:hover {
 	background: var(--wine-deep);
-	color: var(--white);
+	color: var(--cards);
 }
 
 .btn-ghost {
 	background: transparent;
-	color: var(--ink);
-	border-color: color-mix(in srgb, var(--ink) 22%, transparent);
+	color: var(--text);
+	border-color: color-mix(in srgb, var(--text) 22%, transparent);
 }
 
 .btn-ghost:hover {
-	border-color: var(--wine);
-	color: var(--wine-deep);
+	border-color: var(--accent);
+	color: var(--accent);
 }
 
 .cta-row {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.75rem;
+}
+
+.band-dark {
+	background: var(--text);
+	color: color-mix(in srgb, var(--cards) 92%, var(--surfaces));
+}
+
+.band-dark .eyebrow {
+	color: color-mix(in srgb, var(--accent) 85%, var(--cards));
+}
+
+.band-dark .section-title {
+	color: var(--cards);
+}
+
+.band-dark .section-lead,
+.band-dark p {
+	color: color-mix(in srgb, var(--cards) 72%, var(--surfaces));
 }
 
 .reveal {
@@ -236,7 +261,8 @@ p {
 	.btn,
 	.hero-brand,
 	.hero-copy,
-	.hero-visual::after {
+	.hero-visual,
+	.hero-pill {
 		opacity: 1 !important;
 		transform: none !important;
 		animation: none !important;

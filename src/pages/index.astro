@@ -8,8 +8,14 @@ import { pages } from '../lib/content';
 import { withBase } from '../lib/paths';
 
 const { frontmatter, Content } = pages.home;
-const previewServices = services.slice(0, 3);
+const formatDirections = services.slice(0, 3);
 const previewReviews = reviews.slice(0, 2);
+
+const valuePills = [
+	{ label: 'Кто', value: 'Ведущий праздников' },
+	{ label: 'Стиль', value: 'Тёплый · ясный · без клише' },
+	{ label: 'Контакт', value: site.city },
+];
 ---
 
 <BaseLayout title={site.title} description={frontmatter.description} fullBleed>
@@ -18,10 +24,49 @@ const previewReviews = reviews.slice(0, 2);
 		tagline={site.tagline}
 		title={frontmatter.heroTitle}
 		lead={frontmatter.heroLead}
+		primaryHref="/kontakty/"
+		primaryLabel="Узнать, свободна ли дата"
+		secondaryHref="/galereya/"
+		secondaryLabel="Посмотреть меня в деле"
+		pills={['Свадьбы', 'Юбилеи', 'Корпоративы']}
 	/>
 
-	<section class="home-band">
+	<section class="home-band" aria-labelledby="formats-title">
 		<div class="home-inner">
+			<div class="formats reveal">
+				<p class="eyebrow">Форматы</p>
+				<h2 class="section-title" id="formats-title">Три направления</h2>
+				<p class="section-lead">
+					Свадьбы, юбилеи и корпоративы — с разным ритмом, но одной задачей: чтобы гости были в моменте.
+				</p>
+
+				<ul class="format-grid">
+					{
+						formatDirections.map((item, index) => (
+							<li class={`format-block tone-${index + 1}`}>
+								<a class="format-link" href={withBase(`/uslugi/${item.slug}/`)}>
+									<span class="format-index">{String(index + 1).padStart(2, '0')}</span>
+									<h3>{item.title}</h3>
+									<p>{item.summary}</p>
+									<span class="format-more">Подробнее</span>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+
+				<ul class="value-pills" aria-label="Коротко о ведущем">
+					{
+						valuePills.map((item) => (
+							<li>
+								<span class="value-label">{item.label}</span>
+								<span class="value-text">{item.value}</span>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+
 			<div class="intro reveal">
 				<p class="eyebrow">Как я работаю</p>
 				<div class="prose">
@@ -32,42 +77,27 @@ const previewReviews = reviews.slice(0, 2);
 					<a class="btn btn-ghost" href={withBase('/ceny/')}>Пакеты и цены</a>
 				</div>
 			</div>
+		</div>
+	</section>
 
-			<div class="service-strip reveal">
-				<p class="eyebrow">Услуги</p>
-				<h2 class="section-title">Форматы праздника</h2>
-				<ul class="service-list">
-					{
-						previewServices.map((item) => (
-							<li>
-								<a class="service-card-link" href={withBase(`/uslugi/${item.slug}/`)}>
-									<h3>{item.title}</h3>
-									<p>{item.summary}</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-				<a class="text-link" href={withBase('/uslugi/')}>Все услуги</a>
+	<section class="reviews-band band-dark" aria-labelledby="reviews-title">
+		<div class="reviews-inner reveal">
+			<p class="eyebrow">Отзывы</p>
+			<h2 class="section-title" id="reviews-title">Что говорят после праздника</h2>
+			<div class="quotes">
+				{
+					previewReviews.map((item) => (
+						<figure>
+							<blockquote>{item.text}</blockquote>
+							<figcaption>
+								<strong>{item.name}</strong>
+								<span>{item.event}</span>
+							</figcaption>
+						</figure>
+					))
+				}
 			</div>
-
-			<div class="quote-strip reveal">
-				<p class="eyebrow">Отзывы</p>
-				<div class="quotes">
-					{
-						previewReviews.map((item) => (
-							<figure>
-								<blockquote>{item.text}</blockquote>
-								<figcaption>
-									<strong>{item.name}</strong>
-									<span>{item.event}</span>
-								</figcaption>
-							</figure>
-						))
-					}
-				</div>
-				<a class="text-link" href={withBase('/otzyvy/')}>Читать отзывы</a>
-			</div>
+			<a class="text-link on-dark" href={withBase('/otzyvy/')}>Читать отзывы</a>
 		</div>
 	</section>
 </BaseLayout>
@@ -75,6 +105,7 @@ const previewReviews = reviews.slice(0, 2);
 <style>
 	.home-band {
 		padding: var(--space-xl) 0 var(--space-2xl);
+		background: var(--bg);
 	}
 
 	.home-inner {
@@ -84,50 +115,137 @@ const previewReviews = reviews.slice(0, 2);
 		gap: var(--space-xl);
 	}
 
-	.service-list {
+	.format-grid {
 		list-style: none;
-		margin: 0 0 var(--space-md);
+		margin: 0 0 var(--space-lg);
 		padding: 0;
 		display: grid;
-		gap: var(--space-md);
+		gap: 1rem;
 	}
 
-	.service-list li {
-		padding-block: 0.35rem;
-		border-top: 1px solid var(--line);
+	.format-block {
+		background: var(--surfaces);
+		min-height: 100%;
 	}
 
-	.service-card-link {
-		display: block;
+	.format-block.tone-1 {
+		background: var(--surfaces);
+	}
+
+	.format-block.tone-2 {
+		background: color-mix(in srgb, var(--accent) 14%, var(--bg));
+	}
+
+	.format-block.tone-3 {
+		background: color-mix(in srgb, var(--text) 88%, var(--accent));
+		color: var(--cards);
+	}
+
+	.format-block.tone-3 .format-more,
+	.format-block.tone-3 p {
+		color: color-mix(in srgb, var(--cards) 72%, var(--surfaces));
+	}
+
+	.format-block.tone-3 h3 {
+		color: var(--cards);
+	}
+
+	.format-block.tone-3 .format-index {
+		color: color-mix(in srgb, var(--accent) 70%, var(--cards));
+	}
+
+	.format-link {
+		display: grid;
+		gap: 0.65rem;
+		padding: 1.35rem 1.25rem 1.45rem;
 		text-decoration: none;
 		color: inherit;
+		height: 100%;
+		min-height: 14rem;
+		align-content: start;
+		transition: transform 0.3s var(--ease-out);
 	}
 
-	.service-card-link:hover {
+	.format-link:hover {
+		transform: translateY(-3px);
 		color: inherit;
 	}
 
-	.service-card-link:hover h3 {
-		color: var(--wine);
+	.format-index {
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: 0.92rem;
+		letter-spacing: 0.08em;
+		color: var(--accent);
 	}
 
-	.service-list h3 {
-		margin: 0.85rem 0 0.35rem;
-		font-size: 1.2rem;
-		color: var(--wine-deep);
-		transition: color 0.25s var(--ease-out);
+	.format-block h3 {
+		margin: 0;
+		font-size: clamp(1.25rem, 2vw, 1.45rem);
+		color: var(--text);
 	}
 
-	.service-list p {
+	.format-block p {
 		margin: 0;
 		color: var(--ink-soft);
-		max-width: 40rem;
+		font-size: 0.98rem;
+		max-width: 28rem;
+	}
+
+	.format-more {
+		margin-top: auto;
+		padding-top: 0.85rem;
+		font-size: 0.88rem;
+		font-weight: 600;
+		color: var(--accent);
+	}
+
+	.value-pills {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.65rem;
+	}
+
+	.value-pills li {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		padding: 0.7rem 1rem;
+		background: var(--cards);
+		border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+		min-width: 11rem;
+	}
+
+	.value-label {
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+
+	.value-text {
+		font-size: 0.95rem;
+		color: var(--text);
+		font-weight: 500;
+	}
+
+	.reviews-band {
+		padding: var(--space-xl) 0;
+	}
+
+	.reviews-inner {
+		width: min(100% - 2rem, var(--max));
+		margin-inline: auto;
 	}
 
 	.quotes {
 		display: grid;
 		gap: var(--space-lg);
-		margin-bottom: var(--space-md);
+		margin: 0 0 var(--space-md);
 	}
 
 	blockquote {
@@ -135,8 +253,8 @@ const previewReviews = reviews.slice(0, 2);
 		font-size: clamp(1.15rem, 2.2vw, 1.45rem);
 		line-height: 1.45;
 		font-family: var(--font-display);
-		font-weight: 500;
-		color: var(--ink);
+		font-weight: 700;
+		color: var(--cards);
 		max-width: 34rem;
 	}
 
@@ -145,32 +263,27 @@ const previewReviews = reviews.slice(0, 2);
 		display: flex;
 		flex-direction: column;
 		gap: 0.15rem;
-		color: var(--muted);
+		color: color-mix(in srgb, var(--cards) 62%, var(--surfaces));
 		font-size: 0.92rem;
 	}
 
 	.text-link {
-		font-weight: 700;
+		font-weight: 600;
 		text-decoration: none;
-		border-bottom: 1px solid color-mix(in srgb, var(--gold) 70%, transparent);
+		border-bottom: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
 		padding-bottom: 0.1rem;
+		color: var(--accent);
+	}
+
+	.text-link.on-dark {
+		color: color-mix(in srgb, var(--accent) 75%, var(--cards));
+		border-bottom-color: color-mix(in srgb, var(--accent) 55%, var(--cards));
 	}
 
 	@media (min-width: 900px) {
-		.service-list {
+		.format-grid {
 			grid-template-columns: repeat(3, 1fr);
-			gap: var(--space-lg);
-		}
-
-		.service-list li {
-			border-top: none;
-			border-left: 1px solid var(--line);
-			padding: 0 0 0 var(--space-md);
-		}
-
-		.service-list li:first-child {
-			border-left: none;
-			padding-left: 0;
+			gap: 1.1rem;
 		}
 
 		.quotes {

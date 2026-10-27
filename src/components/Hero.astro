@@ -10,6 +10,7 @@ interface Props {
 	primaryLabel?: string;
 	secondaryHref?: string;
 	secondaryLabel?: string;
+	pills?: string[];
 }
 
 const {
@@ -18,65 +19,71 @@ const {
 	title,
 	lead,
 	primaryHref = '/kontakty/',
-	primaryLabel = 'Обсудить дату',
-	secondaryHref = '/uslugi/',
-	secondaryLabel = 'Смотреть услуги',
+	primaryLabel = 'Узнать, свободна ли дата',
+	secondaryHref = '/galereya/',
+	secondaryLabel = 'Посмотреть меня в деле',
+	pills = ['Свадьбы', 'Юбилеи', 'Корпоративы'],
 } = Astro.props;
 ---
 
 <section class="hero" aria-label="Главный экран">
-	<div class="hero-plane" aria-hidden="true"></div>
-	<div class="hero-inner">
-		<div class="hero-copy">
-			<p class="hero-brand">
-				<span class="hero-brand-name">{brand}</span>
-				<span class="hero-brand-tag">{tagline}</span>
-			</p>
-			<h1>{title}</h1>
-			<p class="hero-lead">{lead}</p>
-			<div class="cta-row">
-				<a class="btn btn-primary" href={withBase(primaryHref)}>{primaryLabel}</a>
-				<a class="btn btn-ghost" href={withBase(secondaryHref)}>{secondaryLabel}</a>
+	<div class="hero-stage">
+		<div class="hero-inner">
+			<div class="hero-copy">
+				<p class="hero-brand">
+					<span class="hero-brand-name">{brand}</span>
+					<span class="hero-brand-tag">{tagline}</span>
+				</p>
+				<h1>{title}</h1>
+				<p class="hero-lead">{lead}</p>
+				<div class="cta-row">
+					<a class="btn btn-primary" href={withBase(primaryHref)}>{primaryLabel}</a>
+					<a class="btn btn-ghost" href={withBase(secondaryHref)}>{secondaryLabel}</a>
+				</div>
 			</div>
+
+			<div class="hero-visual" aria-hidden="true">
+				<div class="hero-photo">
+					<span class="hero-photo-label">Фото ведущего</span>
+					<span class="hero-photo-hint">Плейсхолдер · замените реальным кадром</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hero-strip">
+		<div class="hero-strip-inner">
+			<p class="hero-strip-tag">{tagline} · тёплый тон, ясный ритм, без лишнего шума</p>
+			<ul class="hero-pills" aria-label="Форматы">
+				{pills.map((pill) => <li class="hero-pill">{pill}</li>)}
+			</ul>
 		</div>
 	</div>
 </section>
 
 <style>
 	.hero {
+		display: flex;
+		flex-direction: column;
+		background: var(--bg);
+	}
+
+	.hero-stage {
 		position: relative;
-		min-height: min(100vh, 56rem);
-		display: grid;
-		align-items: end;
+		min-height: min(88vh, 48rem);
+		display: flex;
+		align-items: center;
 		overflow: hidden;
-		color: var(--white);
 	}
 
-	.hero-plane {
-		position: absolute;
-		inset: 0;
-		background:
-			linear-gradient(
-				115deg,
-				color-mix(in srgb, var(--ink) 82%, transparent) 0%,
-				color-mix(in srgb, var(--wine-deep) 58%, transparent) 42%,
-				color-mix(in srgb, var(--wine) 38%, transparent) 100%
-			),
-			radial-gradient(ellipse 80% 60% at 70% 40%, var(--gold-soft) 0%, transparent 55%),
-			radial-gradient(ellipse 70% 80% at 15% 80%, var(--wine) 0%, transparent 50%),
-			linear-gradient(160deg, var(--ink) 0%, var(--wine-deep) 48%, var(--wine) 100%);
-		transform: scale(1.02);
-		animation: heroGlow 14s ease-in-out infinite alternate;
-	}
-
-	.hero-plane::after {
+	.hero-stage::before {
 		content: '';
 		position: absolute;
-		inset: 0;
-		background:
-			radial-gradient(circle at 78% 28%, color-mix(in srgb, var(--paper) 28%, transparent), transparent 28%),
-			linear-gradient(to top, color-mix(in srgb, var(--ink) 62%, transparent), transparent 42%);
-		animation: heroSheen 10s var(--ease-out) infinite alternate;
+		inset: auto -10% -20% 40%;
+		height: 70%;
+		background: radial-gradient(ellipse at center, color-mix(in srgb, var(--surfaces) 90%, transparent), transparent 68%);
+		pointer-events: none;
+		animation: softDrift 16s ease-in-out infinite alternate;
 	}
 
 	.hero-inner {
@@ -84,82 +91,165 @@ const {
 		z-index: 1;
 		width: min(100% - 2rem, var(--max));
 		margin: 0 auto;
-		padding: 7rem 0 4.5rem;
+		padding: 5.5rem 0 3.5rem;
+		display: grid;
+		gap: var(--space-lg);
+		align-items: center;
 	}
 
 	.hero-copy {
-		max-width: 36rem;
-		animation: riseIn 0.9s var(--ease-out) both;
+		max-width: 34rem;
+		animation: riseIn 0.85s var(--ease-out) both;
 	}
 
 	.hero-brand {
 		display: flex;
 		flex-direction: column;
-		gap: 0.35rem;
-		margin: 0 0 1.25rem;
-		animation: riseIn 0.9s var(--ease-out) 0.08s both;
+		gap: 0.4rem;
+		margin: 0 0 1.35rem;
+		animation: riseIn 0.85s var(--ease-out) 0.06s both;
 	}
 
 	.hero-brand-name {
 		font-family: var(--font-display);
-		font-size: clamp(2.8rem, 8vw, 5.2rem);
-		font-weight: 700;
-		letter-spacing: 0.02em;
-		line-height: 0.95;
-		color: var(--white);
-		text-shadow: 0 8px 30px color-mix(in srgb, var(--ink) 35%, transparent);
+		font-size: clamp(3.2rem, 9vw, 5.6rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 0.92;
+		color: var(--text);
 	}
 
 	.hero-brand-tag {
 		font-family: var(--font-body);
-		font-size: clamp(1rem, 2vw, 1.2rem);
-		font-weight: 600;
-		letter-spacing: 0.08em;
+		font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+		font-weight: 500;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		color: color-mix(in srgb, var(--paper) 88%, var(--white));
+		color: var(--accent);
 	}
 
 	h1 {
 		margin: 0 0 1rem;
-		font-size: clamp(1.55rem, 3.2vw, 2.35rem);
-		font-weight: 600;
-		max-width: 18ch;
-		color: var(--white);
+		font-size: clamp(1.55rem, 3vw, 2.2rem);
+		font-weight: 700;
+		max-width: 16ch;
+		color: var(--text);
 	}
 
 	.hero-lead {
 		margin: 0 0 1.75rem;
 		font-size: 1.08rem;
 		line-height: 1.6;
-		color: color-mix(in srgb, var(--white) 88%, var(--gold-soft));
-		max-width: 34ch;
+		color: var(--ink-soft);
+		max-width: 36ch;
 	}
 
-	.hero :global(.btn-primary) {
-		background: var(--white);
-		color: var(--wine-deep);
+	.hero-visual {
+		animation: riseIn 0.95s var(--ease-out) 0.14s both;
 	}
 
-	.hero :global(.btn-primary:hover) {
-		background: var(--paper);
-		color: var(--wine-deep);
+	.hero-photo {
+		aspect-ratio: 4 / 5;
+		width: 100%;
+		max-width: 28rem;
+		margin-inline: auto;
+		background:
+			linear-gradient(160deg, color-mix(in srgb, var(--surfaces) 70%, var(--cards)) 0%, var(--surfaces) 48%, color-mix(in srgb, var(--accent) 18%, var(--surfaces)) 100%);
+		border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.45rem;
+		text-align: center;
+		padding: 1.5rem;
+		position: relative;
+		overflow: hidden;
 	}
 
-	.hero :global(.btn-ghost) {
-		color: var(--white);
-		border-color: color-mix(in srgb, var(--white) 45%, transparent);
+	.hero-photo::after {
+		content: '';
+		position: absolute;
+		inset: 12% 14%;
+		border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+		pointer-events: none;
+		animation: framePulse 7s var(--ease-out) infinite alternate;
 	}
 
-	.hero :global(.btn-ghost:hover) {
-		border-color: var(--white);
-		color: var(--white);
-		background: color-mix(in srgb, var(--white) 10%, transparent);
+	.hero-photo-label {
+		position: relative;
+		z-index: 1;
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: 1.05rem;
+		color: var(--text);
+		letter-spacing: -0.01em;
+	}
+
+	.hero-photo-hint {
+		position: relative;
+		z-index: 1;
+		font-size: 0.82rem;
+		color: var(--muted);
+		max-width: 16ch;
+	}
+
+	.hero-strip {
+		background: var(--text);
+		color: var(--cards);
+	}
+
+	.hero-strip-inner {
+		width: min(100% - 2rem, var(--max));
+		margin: 0 auto;
+		padding: 1.15rem 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem 1.5rem;
+	}
+
+	.hero-strip-tag {
+		margin: 0;
+		font-size: 0.95rem;
+		color: color-mix(in srgb, var(--cards) 78%, var(--surfaces));
+		max-width: 36rem;
+	}
+
+	.hero-pills {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.hero-pill {
+		padding: 0.4rem 0.85rem;
+		border: 1px solid color-mix(in srgb, var(--cards) 28%, transparent);
+		color: color-mix(in srgb, var(--cards) 92%, var(--surfaces));
+		font-size: 0.82rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		animation: riseIn 0.7s var(--ease-out) both;
+	}
+
+	.hero-pill:nth-child(1) {
+		animation-delay: 0.2s;
+	}
+	.hero-pill:nth-child(2) {
+		animation-delay: 0.28s;
+	}
+	.hero-pill:nth-child(3) {
+		animation-delay: 0.36s;
 	}
 
 	@keyframes riseIn {
 		from {
 			opacity: 0;
-			transform: translateY(1.25rem);
+			transform: translateY(1.1rem);
 		}
 		to {
 			opacity: 1;
@@ -167,33 +257,57 @@ const {
 		}
 	}
 
-	@keyframes heroGlow {
+	@keyframes softDrift {
 		from {
-			filter: saturate(1) brightness(1);
+			transform: translate3d(0, 0, 0);
+			opacity: 0.85;
 		}
 		to {
-			filter: saturate(1.08) brightness(1.05);
+			transform: translate3d(-3%, 2%, 0);
+			opacity: 1;
 		}
 	}
 
-	@keyframes heroSheen {
+	@keyframes framePulse {
 		from {
-			opacity: 0.85;
-			transform: translate3d(0, 0, 0);
+			opacity: 0.55;
+			transform: scale(1);
 		}
 		to {
-			opacity: 1;
-			transform: translate3d(-1.5%, 1%, 0);
+			opacity: 0.9;
+			transform: scale(1.015);
+		}
+	}
+
+	@media (min-width: 900px) {
+		.hero-inner {
+			grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+			gap: var(--space-xl);
+			padding: 6rem 0 4rem;
+		}
+
+		.hero-photo {
+			margin-inline: 0 0;
+			margin-left: auto;
 		}
 	}
 
 	@media (max-width: 640px) {
+		.hero-stage {
+			min-height: auto;
+		}
+
 		.hero-inner {
-			padding: 6rem 0 3.25rem;
+			padding: 4.5rem 0 2.5rem;
 		}
 
 		.hero-lead {
 			max-width: none;
+		}
+
+		.hero-strip-inner {
+			flex-direction: column;
+			align-items: flex-start;
 		}
 	}
 </style>
