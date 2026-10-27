@@ -1,4 +1,6 @@
 ---
+import { site } from '../data/site';
+
 interface Props {
 	title: string;
 	lead?: string;
@@ -8,7 +10,7 @@ const { title, lead } = Astro.props;
 ---
 
 <header class="page-hero reveal">
-	<p class="eyebrow">D-E · ведущий праздников</p>
+	<p class="eyebrow">{site.brand} · {site.tagline}</p>
 	<h1 class="section-title">{title}</h1>
 	{lead && <p class="section-lead">{lead}</p>}
 </header>
