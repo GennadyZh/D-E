@@ -19,11 +19,13 @@ const { frontmatter, Content } = pages.uslugi;
 		{
 			services.map((item, index) => (
 				<li style={`--i: ${index}`}>
-					<span class="index">{String(index + 1).padStart(2, '0')}</span>
-					<div>
-						<h2>{item.title}</h2>
-						<p>{item.summary}</p>
-					</div>
+					<a class="service-link" href={withBase(`/uslugi/${item.slug}/`)}>
+						<span class="index">{String(index + 1).padStart(2, '0')}</span>
+						<div>
+							<h2>{item.title}</h2>
+							<p>{item.summary}</p>
+						</div>
+					</a>
 				</li>
 			))
 		}
@@ -45,16 +47,32 @@ const { frontmatter, Content } = pages.uslugi;
 	}
 
 	.services li {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		gap: var(--space-md);
-		padding: var(--space-md) 0;
 		border-top: 1px solid var(--line);
-		transition: transform 0.35s var(--ease-out);
 	}
 
 	.services li:last-child {
 		border-bottom: 1px solid var(--line);
+	}
+
+	.service-link {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--space-md);
+		padding: var(--space-md) 0;
+		text-decoration: none;
+		color: inherit;
+		transition:
+			transform 0.35s var(--ease-out),
+			opacity 0.25s var(--ease-out);
+	}
+
+	.service-link:hover {
+		transform: translateX(0.35rem);
+		color: inherit;
+	}
+
+	.service-link:hover h2 {
+		color: var(--wine);
 	}
 
 	.index {
@@ -68,6 +86,7 @@ const { frontmatter, Content } = pages.uslugi;
 		margin: 0 0 0.4rem;
 		font-size: clamp(1.35rem, 2.5vw, 1.7rem);
 		color: var(--wine-deep);
+		transition: color 0.25s var(--ease-out);
 	}
 
 	p {

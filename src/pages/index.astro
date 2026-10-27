@@ -40,8 +40,10 @@ const previewReviews = reviews.slice(0, 2);
 					{
 						previewServices.map((item) => (
 							<li>
-								<h3>{item.title}</h3>
-								<p>{item.summary}</p>
+								<a class="service-card-link" href={withBase(`/uslugi/${item.slug}/`)}>
+									<h3>{item.title}</h3>
+									<p>{item.summary}</p>
+								</a>
 							</li>
 						))
 					}
@@ -95,10 +97,25 @@ const previewReviews = reviews.slice(0, 2);
 		border-top: 1px solid var(--line);
 	}
 
+	.service-card-link {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.service-card-link:hover {
+		color: inherit;
+	}
+
+	.service-card-link:hover h3 {
+		color: var(--wine);
+	}
+
 	.service-list h3 {
 		margin: 0.85rem 0 0.35rem;
 		font-size: 1.2rem;
 		color: var(--wine-deep);
+		transition: color 0.25s var(--ease-out);
 	}
 
 	.service-list p {
