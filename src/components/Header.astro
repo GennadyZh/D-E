@@ -1,12 +1,13 @@
 ---
 import { site, nav } from '../data/site';
+import { withBase, withoutBase } from '../lib/paths';
 
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const pathname = withoutBase(Astro.url.pathname);
 ---
 
 <header class="site-header">
 	<div class="header-inner">
-		<a class="logo" href="/" aria-label={`${site.brand} — на главную`}>
+		<a class="logo" href={withBase('/')} aria-label={`${site.brand} — на главную`}>
 			<span class="logo-mark">{site.brand}</span>
 			<span class="logo-sub">{site.tagline}</span>
 		</a>
@@ -30,7 +31,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 						const active = pathname === hrefPath;
 						return (
 							<li>
-								<a href={item.href} aria-current={active ? 'page' : undefined}>
+								<a href={withBase(item.href)} aria-current={active ? 'page' : undefined}>
 									{item.label}
 								</a>
 							</li>

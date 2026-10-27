@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import packages from '../../data/packages.json';
 import { pages } from '../../lib/content';
+import { withBase } from '../../lib/paths';
 
 const { frontmatter, Content } = pages.ceny;
 ---
@@ -34,7 +35,7 @@ const { frontmatter, Content } = pages.ceny;
 	</ul>
 
 	<div class="cta-row reveal" style="margin-top: 2rem;">
-		<a class="btn btn-primary" href="/kontakty/">Уточнить стоимость</a>
+		<a class="btn btn-primary" href={withBase('/kontakty/')}>Уточнить стоимость</a>
 	</div>
 </BaseLayout>
 
