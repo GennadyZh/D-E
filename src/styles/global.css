@@ -1,15 +1,16 @@
 :root {
-	--ink: #1c1714;
-	--ink-soft: #4a4038;
-	--muted: #6e6258;
-	--paper: #faf6f1;
-	--paper-deep: #f0e6da;
-	--rose: #e8cfc4;
-	--gold: #b8893a;
-	--gold-soft: #d4b478;
-	--wine: #7a2438;
-	--wine-deep: #5c1a2a;
-	--leaf: #3d5a4c;
+	--ink: #302923;
+	--ink-soft: #5a4e45;
+	--muted: #7a6e64;
+	--paper: #f6f2ec;
+	--paper-deep: #e5d6c6;
+	--rose: #e5d6c6;
+	--gold: #b76e50;
+	--gold-soft: #d4a08a;
+	--wine: #b76e50;
+	--wine-deep: #8f5238;
+	--leaf: #5c534c;
+	--white: #ffffff;
 	--line: color-mix(in srgb, var(--ink) 12%, transparent);
 	--shadow-soft: 0 18px 50px color-mix(in srgb, var(--wine) 8%, transparent);
 
@@ -50,7 +51,7 @@ body {
 		radial-gradient(1200px 700px at 88% -10%, color-mix(in srgb, var(--gold-soft) 42%, transparent), transparent 60%),
 		radial-gradient(900px 600px at -5% 20%, color-mix(in srgb, var(--rose) 55%, transparent), transparent 55%),
 		radial-gradient(800px 500px at 50% 110%, color-mix(in srgb, var(--leaf) 12%, transparent), transparent 50%),
-		linear-gradient(165deg, #fffaf5 0%, var(--paper) 45%, var(--paper-deep) 100%);
+		linear-gradient(165deg, var(--white) 0%, var(--paper) 45%, var(--paper-deep) 100%);
 	background-attachment: fixed;
 }
 
@@ -187,12 +188,12 @@ p {
 
 .btn-primary {
 	background: var(--wine);
-	color: #fffaf5;
+	color: var(--white);
 }
 
 .btn-primary:hover {
 	background: var(--wine-deep);
-	color: #fffaf5;
+	color: var(--white);
 }
 
 .btn-ghost {
